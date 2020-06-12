@@ -1,0 +1,66 @@
+
+
+Object Oriented Programming
+    - Objects or Classes
+        -Blueprints / prototype
+        -holds data : Attrbutes
+        -methods    : Functions
+    
+    -Example of Classes
+        -Pets (pet blueprint/class)
+            -Attributes
+                -Name
+                -Size
+                -Color
+                -Species
+                -Gender
+                -Food/diet
+                -Number of legs LOL
+            -Functions of class
+                -Feed pet
+                -Play /w pet
+                -Teach
+                -BackScratches
+
+
+    -INSTANCES
+        -Create a Dog as an instance of a pet!
+            -Dog("rover", large, black, lab,)
+
+
+
+Store!
+
+to create a class create a class by capitalizing the first letter of the classname like JS
+
+class Store:
+    # Attrbutes: name, categories(different sections of store) etc
+
+    # constructor! - the function that runs every time you create a new instance of this class
+    # self represents the current instance of the class.. (in JS the word is "this")
+
+    def __init__(self, name, category, employees):
+        self.name = name (assigning name to this instances name)
+        self.category = category (assigning category to this instances category)
+        self.employees = [] (if youre going to list employees later on you can create it now)
+
+    # Creating a function to share betweeen all instances now!
+    # __str__ will allow us to transform instance of store into a string that way we can print the store object!
+    def __str__(self):
+        # return a string representing the store
+        return f"Welcome to {self.name}: Here are the categories: {self.categories}"
+
+
+Sports_Store = Store("Gander Mountain", ["Running", "Baseball", "Basketball"])
+
+print(sports_store) 
+# prints Welcome to Gander Mountain: Here are the categories: {"Running", "Baseball", "Basketball"}
+
+
+
+
+
+
+
+
+
