@@ -17,12 +17,6 @@ class Player:
 
         else:
             return f"Name: {self.name} is in {self.current_room.name} \n {self.current_room.description}"
-        # output = f"Welcome {self.name}. Current Location: {self.current_room}. Current Items: {self.inventory}"
-        # i = 1
-        # for room in self.current_room:
-        #     output += f'\n {i}. {room.name}'
-        #     i += 1
-        # return output
 
     def __repr__(self):
         return f"self.name = {self.name} ; self.rooms = {self.current_room}"
