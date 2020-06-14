@@ -1,6 +1,14 @@
 from room import Room
 from player import Player
+from item import Item
 
+
+
+# Declare all items
+# Creating items
+torch = Item("Torch", "Old forgotten torch lay on the ground. May light your travels.")
+sword = Item('Sword', 'Quite an old dull sword but it will do the trick')
+shield = Item("Shield", "A worn down shield may block a couple attacks?")
 
 # Declare all the rooms
 
@@ -35,12 +43,20 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+#Puting items into rooms
+
+room['outside'].add_item(torch)
+room['foyer'].add_item(sword)
+room['overlook'].add_item(shield)
+
+
+
 #
 # Main
 #
 
-# Make a new player object that is currently in the 'outside' room.
-player = Player("Robert", room['outside'])
+
 
 # Write a loop that:
 # * Prints the current room name
@@ -51,48 +67,67 @@ player = Player("Robert", room['outside'])
 #
 # If the user enters "q", quit the game.
 
+# Make a new player object that is currently in the 'outside' room.
+player = Player("Robert", room['outside'])
+
 while True:
+
+    # GAME DIALOG
     print(f"    Current player:   {player.name}")
-    print(f"    Current Room:     {player.rooms.name}")
-    print("")
-    print(f"    Room Description: {player.rooms.description}")
-    print("")
-
-    command = input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
-    moves = ['n', 's', 'e', 'w']
+    print(f"    Current Room:     {player.current_room.name}, Items: {player.current_room.items}")
+    print(f"    Room Description: {player.current_room.description}")
 
 
-    if command in moves:
 
-        if command == 'n':
+
+
+    # PLAYER MOVEMENT AND COMMANDS
+    command = input('Press [n], [s], [e], [w] to move. Press [i] for inventory. Type "take" or "get" to pick up items. Type "drop" to remove an item from your inventory and place it back into the room. Press [q] to quit: ')
+    moves = ['n', 's', 'e', 'w', 'i', "take", "get", "drop"]
+
+    if command == 'n':
             #fix this to check the room in the chosen direction
-            if player.rooms.n_to != None:
-                player.rooms = player.rooms.n_to
+        if player.current_room.n_to != None:
+                player.current_room = player.current_room.n_to
 
-            else:
+        else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
-        elif command  == 's':
-            if player.rooms.s_to != None:
-                player.rooms = player.rooms.s_to
-            else:
+    elif command  == 's':
+        if player.current_room.s_to != None:
+                player.current_room = player.current_room.s_to
+        else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
         
-        elif command == 'e':
-            if player.rooms.e_to != None:
-                player.rooms = player.rooms.e_to
-            else:
+    elif command == 'e':
+        if player.current_room.e_to != None:
+                player.current_room = player.current_room.e_to
+        else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
         
-        elif command == 'w':
-            if player.rooms.w_to != None:
-                player.rooms = player.rooms.w_to
-            else:
+    elif command == 'w':
+        if player.current_room.w_to != None:
+                player.current_room = player.current_room.w_to
+        else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
+        
+    elif command == 'i':
+        if player.inventory != 0:
+            print(f'{player.inventory}')
+        else: print("Inventory is empty")
 
+    elif command == 'take' or command == 'get':
+        for item in player.current_room.items:
+            if item.name in player.current_room.items:
+                new_player_item = player.current_room.remove_item(item.name)
+                player.add_item(new_player_item)
+            else:
+                print("Item does not exist")
+
+    # Q TO QUIT THE GAME
     if command == 'q':
         print("You have exited the game.")
         break
