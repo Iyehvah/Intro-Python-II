@@ -68,28 +68,25 @@ room['overlook'].add_item(shield)
 # If the user enters "q", quit the game.
 
 # Make a new player object that is currently in the 'outside' room.
+playerInventory = []
+roomInventory = []
 player = Player("Robert", room['outside'])
+command=''
 
-while True:
+while command != 'q':
 
     # GAME DIALOG
     print(f"    Current player:   {player.name}")
     print(f"    Current Room:     {player.current_room.name}, Items: {player.current_room.items}")
     print(f"    Room Description: {player.current_room.description}")
 
-
-
-
-
     # PLAYER MOVEMENT AND COMMANDS
-    command = input('Press [n], [s], [e], [w] to move. Press [i] for inventory. Type "take" or "get" to pick up items. Type "drop" to remove an item from your inventory and place it back into the room. Press [q] to quit: ')
-    moves = ['n', 's', 'e', 'w', 'i', "take", "get", "drop"]
+    command = input('Please enter a command. Direction: [n] , [s] , [e] , [w]. Actions: [i] , [take] , [get] , [drop] , [q] = quit the game: ')
 
     if command == 'n':
             #fix this to check the room in the chosen direction
         if player.current_room.n_to != None:
                 player.current_room = player.current_room.n_to
-
         else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
@@ -113,19 +110,67 @@ while True:
         else:
                 print("You can not go here please try again!")
                 input('Press [n], [s], [e], [w] to move. Press [q] to quit: ')
-        
+
+    elif(command == 'pi'):
+
+        playerItemName = input('Enter the name of the item you want to add to your inventory: ')
+        playerItemDesc = input('Enter the items description: ')
+        playerInventory.append(Item(playerItemName, playerItemDesc))
+
+        print(f'Player Inventory: {playerInventory}')
+
+        player.inventory = playerInventory
+
+        print(player)
+
+    elif( command == 'ri'):
+        roomItemName = input('Enter the name of the item you want to remove from your inventory: ')
+
+        roomItemDesc = input('Enter the item decription, you want to add to a room: ')
+
+        roomInventory.append(Item(roomItemName,roomItemDesc))
+
+        print(f'room Inventory: {roomInventory}')
+
+        player.current_room.items = roomInventory        
+
+        print(player.current_room.items)
+
+
+    
+    elif(len(command.split(' '))==2):
+        if(command[0].lower() == 'get' or command[0].lower() == 'take'):
+    
+            print(f'the room inventory is: {player.current_room.items}')
+            print(f'the player inventory is: {player.inventory}')
+
+            for item in player.current_room.items:
+                if(item.itemName == command[1]):
+                    player.current_room.items.remove(item)
+                    print(item.on_take(item.itemName))
+                    player.inventory.append(item)
+                    print(item.on_drop(item.itemName))
+        else:
+                    print(f'item {command[1]} not found')
+
+    elif(command[0].lower() == 'drop'):
+        print(f'the room inventory is: {player.current_room.items}')
+        print(f'the player inventory is: {player.inventory}')
+        for item in player.inventory:
+            if(item.itemName == command[1]):
+                    player.inventory.remove(item)
+                    player.current_room.items.append(item)
+                    print(item.on_drop(item.itemName))
+            else:
+                    print(f'item {command[1]} not found')
+
+    elif(command=='i'):
+        print(f'Current inventory of the player is: {player.inventory}')
+
     elif command == 'i':
         if player.inventory != 0:
             print(f'{player.inventory}')
         else: print("Inventory is empty")
-
-    elif command == 'take' or command == 'get':
-        for item in player.current_room.items:
-            if item.name in player.current_room.items:
-                new_player_item = player.current_room.remove_item(item.name)
-                player.add_item(new_player_item)
-            else:
-                print("Item does not exist")
 
     # Q TO QUIT THE GAME
     if command == 'q':

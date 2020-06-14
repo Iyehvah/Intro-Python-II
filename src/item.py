@@ -6,10 +6,10 @@ class Item:
     def __repr__(self):
         return f'{self.name}, {self.description}'
 
-    def on_pickup(self):
-        print(f' You have picked up {self.name}')
+    def on_take(self, name):
+        return f'Item {self.name} was picked up'
 
     def on_drop(self):
-        print(f' You have dropped {self.name}')
+        return (f' You have dropped {self.name}')
 
     

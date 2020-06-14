@@ -1,20 +1,28 @@
 # Write a class to hold player information, e.g. what room they are in
 # currently.
-from room import Room
+from item import Item
 
 class Player:
-    def __init__(self, name, current_room):
+    def __init__(self, name, current_room, items=[]):
         self.name = name
         self.current_room = current_room
         self.inventory = []
     
     def __str__(self):
-        output = f"Welcome {self.name}. Current Location: {self.current_room}. Current Items: {self.inventory}"
-        i = 1
-        for room in self.current_room:
-            output += f'\n {i}. {room.name}'
-            i += 1
-        return output
+        if self.inventory:
+            result = f'Name: {self.name} is in {self.current_room.name} \n {self.current_room.description} Items are \n'
+            for i in self.inventory:
+                result += f' item names: {i.name} item description: {i.description} \n'
+            return result
+
+        else:
+            return f"Name: {self.name} is in {self.current_room.name} \n {self.current_room.description}"
+        # output = f"Welcome {self.name}. Current Location: {self.current_room}. Current Items: {self.inventory}"
+        # i = 1
+        # for room in self.current_room:
+        #     output += f'\n {i}. {room.name}'
+        #     i += 1
+        # return output
 
     def __repr__(self):
         return f"self.name = {self.name} ; self.rooms = {self.current_room}"
